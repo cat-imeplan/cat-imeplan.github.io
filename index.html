@@ -230,13 +230,15 @@
         var color, link, tiulo_proyecto, titulo, gerencia, miniatura;
         for(var i = start; i < limit; i++){
           color = (csv_data[i].color != null)? csv_data[i].color : '#989898';
-          link = (csv_data[i].liga_drive != null)? '<a style="color:#212529;text-decoration: none;" href="'+csv_data[i].liga_drive+'" target="_blank">VER MAPA</a>' : '';
+          link_mapa = (csv_data[i].liga_drive != null)? '<a style="color:#212529;text-decoration: none;" href="'+csv_data[i].liga_drive+'" target="_blank">VER MAPA</a>' : '';
           tiulo_proyecto = csv_data[i].clave_de_mapa + " - " + csv_data[i].numero_historico;
           titulo = (csv_data[i].nombre_analisis != null)? csv_data[i].nombre_analisis : "";
           gerencia = (csv_data[i].gerencia != null)? csv_data[i].gerencia : "";
           miniatura = (csv_data[i].liga_drive != null)? csv_data[i].liga_drive.replace("open", "thumbnail")+"&sz=w400-h300-p-k-nu" : "";
+          link_estadistica = (csv_data[i].estadistica != null)? '<a style="color:#212529;text-decoration: none;" href="'+csv_data[i].estadistica+'" target="_blank">VER ESTADISTICA</a>' : '';
+          link_metodologica = (csv_data[i].nota_metodologica != null)? '<a style="color:#212529;text-decoration: none;" href="'+csv_data[i].nota_metodologica+'" target="_blank">VER NOTA METODOLÓGICA</a>' : '';
 
-          $("#table").append("<div class='col-3'><div class='sombra card mb-3' style='background-color: "+color+" !important;'><div class='card-header' style='background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), url("+miniatura+") no-repeat;'><ul class='list-group' style='color: "+color+";'><li class='list-group-item' style='background-color: #00000000; border-color: "+color+" !important;'>"+gerencia+"</li></ul><label class='mt-3' style='color: "+color+";'>"+tiulo_proyecto+"</label></div><div class='card-body'><p class='card-text'>"+titulo+"</p></div><div class='card-footer bg-transparent'>"+link+"</div></div></div>");
+          $("#table").append("<div class='col-3'><div class='sombra card mb-3' style='background-color: "+color+" !important;'><div class='card-header' style='background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), url("+miniatura+") no-repeat;'><ul class='list-group' style='color: "+color+";'><li class='list-group-item' style='background-color: #00000000; border-color: "+color+" !important;'>"+gerencia+"</li></ul><label class='mt-3' style='color: "+color+";'>"+tiulo_proyecto+"</label></div><div class='card-body'><p class='card-text'>"+titulo+"</p></div><div class='card-footer bg-transparent'><div>"+link_mapa+"</div><div>"+link_estadistica+"</div><div>"+link_metodologica+"</div></div></div></div>");
         }
       }
       function changePagination(orientation){
@@ -248,17 +250,19 @@
               page++;
               $("#page_back_top").removeClass("disabled");
               $("#page_back_bottom").removeClass("disabled");
-              if(temp.length > 0)
+              if(temp != null && temp.length > 0){
                 buildElements(temp, start_pagination, limit_pagination);
-              else
+              }
+              else{
                 buildElements(data_csv, start_pagination, limit_pagination);
+              }
             }
             else{
               $("#page_next_top").addClass("disabled");
               $("#page_next_bottom").addClass("disabled");
             }
 
-            if(temp.length > 0){
+            if(temp != null && temp.length > 0){
               $("#pagination_top").html("Página "+page+" - "+totalPages+" / "+temp.length);
               $("#pagination_bottom").html("Página "+page+" - "+totalPages+" / "+temp.length);
             }
@@ -284,7 +288,7 @@
               start_pagination -= 24;
               limit_pagination -= 24;
               page--;
-              if(temp.length > 0)
+              if(temp != null && temp.length > 0)
                 buildElements(temp, start_pagination, limit_pagination);
               else
                 buildElements(data_csv, start_pagination, limit_pagination);
@@ -294,7 +298,7 @@
               $("#page_next_bottom").removeClass("disabled");
             }
             
-            if(temp.length > 0){
+            if(temp != null && temp.length > 0){
               $("#pagination_top").html("Página "+page+" - "+totalPages+" / "+temp.length);
               $("#pagination_bottom").html("Página "+page+" - "+totalPages+" / "+temp.length);
             }
